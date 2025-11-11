@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="805.0" prefWidth="1127.0" style="-fx-background-color: #f5f5f5; -fx-background-radius: 15;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Admin.AdminUI">
+    <children>
+        <BorderPane prefHeight="805.0" prefWidth="1127.0" style="-fx-background-radius: 15;">
+            <effect>
+                <DropShadow color="#00000030" height="20.0" radius="9.5" width="20.0" />
+            </effect>
+            <top>
+                <AnchorPane prefHeight="100.0" prefWidth="1127.0" style="-fx-background-color: linear-gradient(to right, #FF8C00, #FF5722); -fx-background-radius: 15 15 0 0;" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label layoutX="23.0" layoutY="15.0" text="Hệ thống quản lý bãi đỗ xe thông minh" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Label>
+                        <!--                        <Label layoutX="20.0" layoutY="50.0" text="Hệ thống quản lý bãi đỗ xe thông minh" textFill="WHITE">-->
+                        <!--                            <font>-->
+                        <!--                                <Font size="14.0" />-->
+                        <!--                            </font>-->
+                        <!--                        </Label>-->
+
+                        <!-- Định vị các nút vào giữa màn hình -->
+                        <HBox alignment="CENTER" layoutX="276.0" layoutY="20.0" spacing="15.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0">
+                        </HBox>
+
+                        <!-- Nút đăng xuất ở góc phải -->
+                        <Button fx:id="Logout" layoutX="967.0" layoutY="20.0" onAction="#logout" prefHeight="60.0" prefWidth="140.0" style="-fx-background-color: #e74c3c; -fx-background-radius: 30; -fx-cursor: hand;" text="Đăng xuất" textFill="WHITE" AnchorPane.rightAnchor="20.0">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                            <effect>
+                                <DropShadow color="#00000033" height="10.0" radius="4.5" width="10.0" />
+                            </effect>
+                            <padding>
+                                <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                            </padding>
+                        </Button>
+                    </children>
+                </AnchorPane>
+            </top>
+
+            <center>
+                <AnchorPane prefHeight="705.0" prefWidth="1127.0" style="-fx-background-color: white; -fx-background-radius: 0 0 15 15;" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox alignment="CENTER" layoutX="313.0" layoutY="152.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <Label text="CHÀO MỪNG" textFill="#ff5722">
+                                    <font>
+                                        <Font name="System Bold" size="36.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Hệ thống quản lý bãi đỗ xe" textFill="#333333">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Vui lòng chọn chức năng từ menu phía trên để bắt đầu" textFill="#757575">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Label>
+
+                                <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #f9f9f9; -fx-background-radius: 15;" maxWidth="800.0">
+                                    <padding>
+                                        <Insets top="25.0" right="25.0" bottom="25.0" left="25.0" />
+                                    </padding>
+                                    <children>
+                                        <Label text="Các chức năng chính" textFill="#333333">
+                                            <font>
+                                                <Font name="System Bold" size="18.0" />
+                                            </font>
+                                        </Label>
+
+                                        <HBox alignment="CENTER" spacing="15.0">
+                                            <children>
+                                                <!-- Nút Nhận trả xe ở phần chức năng chính -->
+                                                <Button fx:id="mainButtonStatistic" onAction="#Statistic" style="-fx-background-color: #f0f0f0; -fx-background-radius: 10; -fx-cursor: hand;" prefWidth="230.0" prefHeight="100.0">
+                                                    <graphic>
+                                                        <VBox alignment="TOP_CENTER" spacing="10.0">
+                                                            <children>
+                                                                <Label text="Thống kê doanh thu" textFill="#ff8c00">
+                                                                    <font>
+                                                                        <Font name="System Bold" size="14.0" />
+                                                                    </font>
+                                                                </Label>
+                                                                <Label text="Thống kê doanh thu" textFill="#757575" textAlignment="CENTER" wrapText="true">
+                                                                    <font>
+                                                                        <Font size="12.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </VBox>
+                                                    </graphic>
+                                                    <effect>
+                                                        <DropShadow color="#00000020" height="5.0" radius="2.0" width="5.0" />
+                                                    </effect>
+                                                </Button>
+
+                                                <!-- Nút Đăng ký thẻ tháng ở phần chức năng chính -->
+                                                <Button fx:id="mainButtonAccount" onAction="#Account" style="-fx-background-color: #f0f0f0; -fx-background-radius: 10; -fx-cursor: hand;" prefWidth="230.0" prefHeight="100.0">
+                                                    <graphic>
+                                                        <VBox alignment="TOP_CENTER" spacing="10.0">
+                                                            <children>
+                                                                <Label text="Quản lý tài khoản" textFill="#ff8c00">
+                                                                    <font>
+                                                                        <Font name="System Bold" size="14.0" />
+                                                                    </font>
+                                                                </Label>
+                                                                <Label text="Quản lý tài khoản" textFill="#757575" textAlignment="CENTER" wrapText="true">
+                                                                    <font>
+                                                                        <Font size="12.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </VBox>
+                                                    </graphic>
+                                                    <effect>
+                                                        <DropShadow color="#00000020" height="5.0" radius="2.0" width="5.0" />
+                                                    </effect>
+                                                </Button>
+
+                                                <!-- Nút Quản lý sự cố ở phần chức năng chính -->
+                                                <Button fx:id="mainButtonAProblem" onAction="#AProblem" style="-fx-background-color: #f0f0f0; -fx-background-radius: 10; -fx-cursor: hand;" prefWidth="230.0" prefHeight="100.0">
+                                                    <graphic>
+                                                        <VBox alignment="TOP_CENTER" spacing="10.0">
+                                                            <children>
+                                                                <Label text="Quản lý sự cố" textFill="#ff8c00">
+                                                                    <font>
+                                                                        <Font name="System Bold" size="14.0" />
+                                                                    </font>
+                                                                </Label>
+                                                                <Label text="Ghi nhận và xử lý các sự cố phát sinh" textFill="#757575" textAlignment="CENTER" wrapText="true">
+                                                                    <font>
+                                                                        <Font size="12.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </VBox>
+                                                    </graphic>
+                                                    <effect>
+                                                        <DropShadow color="#00000020" height="5.0" radius="2.0" width="5.0" />
+                                                    </effect>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

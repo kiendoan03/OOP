@@ -1,0 +1,67 @@
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-background-color:  orange;
+}
+.table-view .column-header .label{
+   -fx-text-fill: white;
+   -fx-font-weight: bold; 
+   -fx-alignment: CENTER;
+}
+.table-view .column{
+    -fx-border-color: skyblue;
+    -fx-border-width: 1px;
+}
+.table-view .cell{
+   -fx-cell-size: 35;
+  -fx-alignment: center;
+  -fx-background-color: #FFFFFF;
+  -fx-border-color: #FFFFFF;
+  -fx-text-fill: black;
+  -fx-alignment: CENTER;
+  -fx-font-family:"Lucida Sans Unicode";
+   
+}
+.table-row-cell:selected {
+   -fx-background-color: white;
+   -fx-text-background-color:  #1c91c6;
+     -fx-font-family:"Lucida Sans Unicode";
+}
+
+.table-view .increment-button ,.table-view .decrement-button {
+    -fx-background-color:transparent;
+	-fx-background-radius: 2em;
+
+}
+
+/* The main scrollbar **track** CSS class  */
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track{
+	-fx-background-color: transparent;
+	-fx-border-color:derive( #1c91c6,80%);
+
+	-fx-background-radius: 2em;
+	-fx-border-radius:2em;
+}
+
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color:derive( #1c91c6,90%);
+	-fx-background-insets: 2, 0, 0;
+	-fx-background-radius: 2em;
+
+}
+
+
+.chart {
+    -fx-padding: 10px;
+    -fx-background-color: transparent;
+    -fx-legend-visible: false;
+}
+.chart-plot-background {
+    -fx-background-color:transparent;
+}
+
+.chart-pie {
+    -fx-border-color: derive(-fx-pie-color, 1%);
+    -fx-border-width: 0px;
+}

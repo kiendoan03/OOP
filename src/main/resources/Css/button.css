@@ -1,0 +1,30 @@
+.button-1 {
+  -fx-background-color:  #1c91c6;
+  -fx-border-radius: 8px;
+  -fx-border-style: none;
+  -fx-box-sizing: border-box;
+  -fx-text-fill: #FFFFFF;
+  -fx-cursor: pointer;
+  -fx-display: inline-block;
+  -fx-font-family:"Lucida Sans Unicode";
+  -fx-font-size: 15px;
+  -fx-font-weight: 500;
+  -fx-height: 40px;
+  -fx-line-height: 20px;
+  -fx-list-style: none;
+  -fx-margin: 0;
+  -fx-outline: none;
+  -fx-padding: 10px 16px;
+  -fx-position: relative;
+  -fx-text-align: center;
+  -fx-text-decoration: none;
+  -fx-transition: color 100ms;
+  -fx-vertical-align: baseline;
+  -fx-user-select: none;
+  -fx-touch-action: manipulation;
+}
+
+.button-1:hover,
+.button-1:focus {
+  -fx-background-color: #F082AC;
+}
