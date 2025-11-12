@@ -5,23 +5,23 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Employee.Card">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" style="-fx-background: linear-gradient(to bottom, #e8f4f8 0%, #ffffff 100%);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Employee.Card">
     <top>
-        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: linear-gradient(to right, #0088cc 0%, #00bfff 50%, #81d4fa 100%);" BorderPane.alignment="CENTER">
             <HBox alignment="TOP_LEFT">
                 <children>
-                    <Button fx:id="backButton" text="Quay lại" onAction="#handleBackButton">
+                    <Button fx:id="backButton" text="⬅ Quay lại" onAction="#handleBackButton" style="-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-padding: 8px 15px; -fx-background-radius: 5;">
                         <font>
                             <Font size="12.0" />
                         </font>
                     </Button>
                 </children>
                 <VBox.margin>
-                    <Insets bottom="5.0" />
+                    <Insets bottom="5.0" left="15.0" />
                 </VBox.margin>
             </HBox>
             <children>
-                <Label text="QUẢN LÝ ĐĂNG KÝ THẺ THÁNG" textAlignment="CENTER">
+                <Label text="💳 QUẢN LÝ ĐĂNG KÝ THẺ THÁNG" textAlignment="CENTER" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>

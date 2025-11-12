@@ -12,7 +12,7 @@ public class EParking extends EmployeeUI{
     private Button buttonParkingIn;
     public void ParkingIn(ActionEvent event) throws IOException {
         Main m = new Main();
-        m.changeScene("Parkingin.fxml");
+        m.changeScene("ParkingIn.fxml");
     }
 
     @FXML

@@ -4,37 +4,44 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="804.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Login"  style="-fx-background-color: linear-gradient(to bottom right, #ffa500, #ff7f00);">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="804.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Login" style="-fx-background: linear-gradient(to bottom, #e8f4f8 0%, #b3e5fc 50%, #81d4fa 100%);">
    <children>
-      <VBox alignment="CENTER" layoutX="470" layoutY="270" spacing="20.0">
-         <Label text="Đăng nhập" textFill="WHITE">
+      <VBox alignment="CENTER" layoutX="280" layoutY="200" prefWidth="500" spacing="25.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 50; -fx-effect: dropshadow(gaussian, rgba(0,136,204,0.25), 20, 0, 0, 8);">
+         <Label text="🚗 PARKING SYSTEM" textAlignment="CENTER" textFill="#0088cc" wrapText="true">
             <font>
-               <Font name="MT Extra" size="40.0" />
+               <Font name="Segoe UI" size="36.0" />
             </font>
          </Label>
-         <Label fx:id="wrongLogin" textFill="WHITE">
+         
+         <Label text="Đăng nhập vào hệ thống quản lý bãi gửi xe" textAlignment="CENTER" textFill="#6c757d">
             <font>
-               <Font name="Lucida Sans Unicode" size="14.0" />
+               <Font name="Segoe UI" size="13.0" />
             </font>
          </Label>
-         <TextField fx:id="username" promptText="Tài khoản" style="-fx-background-radius: 5; -fx-font-size: 20px;">
+         
+         <TextField fx:id="username" promptText="👤 Tài khoản" style="-fx-background-color: #f0f8fc; -fx-border-color: #00bfff; -fx-border-width: 0 0 2 0; -fx-padding: 15 10 10 10; -fx-font-size: 14px; -fx-prompt-text-fill: #999999;">
             <font>
-               <Font name="Lucida Sans Unicode" size="16.0" />
+               <Font name="Segoe UI" size="14.0" />
             </font>
          </TextField>
-         <PasswordField fx:id="password" promptText="Mật khẩu" style="-fx-background-radius: 5; -fx-font-size: 20px;">
+         
+         <PasswordField fx:id="password" promptText="🔒 Mật khẩu" style="-fx-background-color: #f0f8fc; -fx-border-color: #00bfff; -fx-border-width: 0 0 2 0; -fx-padding: 15 10 10 10; -fx-font-size: 14px; -fx-prompt-text-fill: #999999;">
             <font>
-               <Font name="Lucida Sans Unicode" size="16.0" />
+               <Font name="Segoe UI" size="14.0" />
             </font>
          </PasswordField>
-         <JFXButton fx:id="button" onAction="#userLogin" style="-fx-background-color: gray; -fx-text-fill: white; -fx-font-size: 18px; -fx-pref-width: 150px; -fx-pref-height: 50px;" text="Đăng nhập" />
+         
+         <Label fx:id="wrongLogin" textAlignment="CENTER" textFill="#ff6b6b" wrapText="true">
+            <font>
+               <Font name="Segoe UI" size="12.0" />
+            </font>
+         </Label>
+         
+         <JFXButton fx:id="button" onAction="#userLogin" style="-fx-background-color: linear-gradient(to right, #0088cc, #00bfff); -fx-text-fill: white; -fx-font-size: 16px; -fx-pref-width: 400; -fx-pref-height: 50; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,136,204,0.3), 8, 0, 0, 3);" text="ĐĂNG NHẬP" />
       </VBox>
    </children>
 </AnchorPane>

@@ -4,30 +4,24 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import sample.DatabaseConnection;
 
-public class ParkingOut extends EmployeeUI implements Initializable{
+public class ParkingOut extends EmployeeUI implements Initializable {
 
-    @FXML
-    private ComboBox<String> loaiTheBox;
-    @FXML
-    private ComboBox<String> maTheBox;
-    @FXML
-    private Label loaiXeLabel;
-    @FXML
-    private Label khuLabel;
-    @FXML
-    private Label bienSoXeLabel;
-    @FXML
-    private Label ngayNhanLabel;
-    @FXML
-    private Button deleteVehicle;
-    @FXML
-    private Button lamMoi;
+    @FXML private ComboBox<String> loaiTheBox;
+    @FXML private ComboBox<String> maTheBox;
+    @FXML private Label loaiXeLabel;
+    @FXML private Label bienSoXeLabel;
+    @FXML private Label gioVaoLabel;
+    @FXML private Label nhanVienLabel;
+    @FXML private Button deleteVehicle;
+    @FXML private Button lamMoi;
 
     private Connection connection;
 
@@ -47,250 +41,278 @@ public class ParkingOut extends EmployeeUI implements Initializable{
         ObservableList<String> options = FXCollections.observableArrayList("Thẻ ngày", "Thẻ tháng");
         loaiTheBox.setItems(options);
 
-        loaiTheBox.setOnAction(event -> {
-            String selectedValue = loaiTheBox != null ? loaiTheBox.getValue() : null;
-            if ("Thẻ ngày".equals(selectedValue)) {
-                try {
-                    // Truy vấn dữ liệu từ cơ sở dữ liệu
-                    String query = "SELECT MaTheNgay, LoaiThe FROM the_ngay WHERE (MaTheNgay IS NOT NULL) AND (LoaiThe IS NOT NULL)";
-                    Statement statement = connection.createStatement();
-                    ResultSet resultSet = statement.executeQuery(query);
-
-                    // Khởi tạo danh sách options
-                    ObservableList<String> options3 = FXCollections.observableArrayList();
-
-                    // Lấy dữ liệu từ ResultSet và thêm vào danh sách
-                    while (resultSet.next()) {
-                        options3.add(resultSet.getString("MaTheNgay"));
-                    }
-
-                    // Đưa danh sách options vào ComboBox
-                    maTheBox.setItems(options3);
-
-                    // Xoá giá trị của các box
-                    loaiXeLabel.setText(null);
-                    bienSoXeLabel.setText(null);
-                    khuLabel.setText(null);
-                    ngayNhanLabel.setText(null);
-
-                    statement.close();
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    showAlert(Alert.AlertType.ERROR,"Thông báo","Lỗi", String.valueOf(e));
-                }
-
-                maTheBox.setOnAction(event1 -> {
-                    String selectedValue1 = maTheBox.getValue() != null ? maTheBox.getValue() : null;
-                    try {
-                        String query = "SELECT LoaiXe, BienSoXe, Khu, NgayNhan FROM the_ngay NATURAL JOIN nhan_tra_xe_ngay WHERE MaTheNgay = ?";
-                        PreparedStatement statement = connection.prepareStatement(query);
-                        statement.setString(1, selectedValue1);
-                        ResultSet resultSet = statement.executeQuery();
-
-                        if (resultSet.next()) {
-                            String loaiXe = resultSet.getString("LoaiXe");
-                            String bienSoXe = resultSet.getString("BienSoXe");
-                            String khu = resultSet.getString("Khu");
-                            Date ngayNhan = resultSet.getDate("NgayNhan");
-                            loaiXeLabel.setText(loaiXe);
-                            bienSoXeLabel.setText(bienSoXe);
-                            khuLabel.setText(khu);
-                            ngayNhanLabel.setText(String.valueOf(ngayNhan.toLocalDate()));
-                        }
-
-                        statement.close();
-
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        showAlert(Alert.AlertType.ERROR,"Thông báo","Lỗi", String.valueOf(e));
-                    }
-                });
-
-            } else if ("Thẻ tháng".equals(selectedValue)) {
-                try {
-                    // Xoá dữ liệu trong maTheBox
-                    maTheBox.getItems().clear();
-                    loaiXeLabel.setText(null);
-                    bienSoXeLabel.setText(null);
-                    khuLabel.setText(null);
-                    ngayNhanLabel.setText(null);
-
-                    // Truy vấn dữ liệu từ cơ sở dữ liệu
-                    String query = "SELECT MaTheThang,LoaiThe FROM the_thang NATURAL JOIN nhan_tra_xe_thang WHERE (MaTheThang IS NOT NULL) AND (LoaiThe IS NOT NULL)";
-                    Statement statement = connection.createStatement();
-                    ResultSet resultSet = statement.executeQuery(query);
-
-                    // Khởi tạo danh sách options
-                    ObservableList<String> options4 = FXCollections.observableArrayList();
-
-                    // Lấy dữ liệu từ ResultSet và thêm vào danh sách
-                    while (resultSet.next()) {
-                        options4.add(resultSet.getString("MaTheThang"));
-                    }
-
-                    // Đưa danh sách options vào ComboBox
-                    maTheBox.setItems(options4);
-
-                    statement.close();
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    showAlert(Alert.AlertType.ERROR,"Thông báo","Lỗi", String.valueOf(e));
-                }
-                maTheBox.setOnAction(event1 -> {
-                    String selectedValue1 = maTheBox.getValue() != null ? maTheBox.getValue() : null;
-                    try {
-                        String query = "SELECT LoaiXe, BienSoXe, Khu, NgayNhan FROM the_thang NATURAL JOIN nhan_tra_xe_thang WHERE MaTheThang = ?";
-                        PreparedStatement statement = connection.prepareStatement(query);
-                        statement.setString(1, selectedValue1);
-                        ResultSet resultSet = statement.executeQuery();
-
-                        if (resultSet.next()) {
-                            String loaiXe = resultSet.getString("LoaiXe");
-                            String bienSoXe = resultSet.getString("BienSoXe");
-                            String khu = resultSet.getString("Khu");
-                            Date ngayNhan = resultSet.getDate("NgayNhan");
-                            loaiXeLabel.setText(loaiXe);
-                            bienSoXeLabel.setText(bienSoXe);
-                            khuLabel.setText(khu);
-                            ngayNhanLabel.setText(String.valueOf(ngayNhan.toLocalDate()));
-                        }
-
-                        statement.close();
-
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        showAlert(Alert.AlertType.ERROR,"Thông báo","Lỗi", String.valueOf(e));
-                    }
-                });
-            }
-        });
+        loaiTheBox.setOnAction(event -> handleLoaiTheChange());
+        maTheBox.setOnAction(event -> handleMaTheChange());
     }
 
-    public void TraXe(){
-        String loaiThe = loaiTheBox.getValue() != null ? loaiTheBox.getValue() : null;
-        String maThe = maTheBox.getValue() != null ? maTheBox.getValue() : null;
-        String loaiXe = loaiXeLabel.getText();
-        String khu = khuLabel.getText();
+    private void handleLoaiTheChange() {
+        String selectedValue = loaiTheBox.getValue();
+        maTheBox.getItems().clear();
+        clearLabels();
+
+        if (selectedValue == null) return;
+
+        try {
+            if ("Thẻ ngày".equals(selectedValue)) {
+                // Lấy danh sách thẻ ngày đang được sử dụng (có gio_vao, chưa có gio_ra)
+                String query = "SELECT tn.the_ngay_id, t.bien_so_xe " +
+                        "FROM the_ngay tn " +
+                        "JOIN the t ON tn.the_id = t.the_id " +
+                        "WHERE tn.gio_vao IS NOT NULL AND tn.gio_ra IS NULL";
+
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query);
+
+                ObservableList<String> options3 = FXCollections.observableArrayList();
+                while (resultSet.next()) {
+                    String display = "N" + resultSet.getInt("the_ngay_id") +
+                            " - " + resultSet.getString("bien_so_xe");
+                    options3.add(display);
+                }
+                maTheBox.setItems(options3);
+                statement.close();
+
+            } else if ("Thẻ tháng".equals(selectedValue)) {
+                // Lấy danh sách thẻ tháng đang được sử dụng
+                String query = "SELECT tt.the_thang_id, t.bien_so_xe, tt.ho_ten_khach_hang " +
+                        "FROM the_thang tt " +
+                        "JOIN the t ON tt.the_id = t.the_id " +
+                        "WHERE tt.the_id IS NOT NULL";
+
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query);
+
+                ObservableList<String> options4 = FXCollections.observableArrayList();
+                while (resultSet.next()) {
+                    String display = "T" + resultSet.getInt("the_thang_id") +
+                            " - " + resultSet.getString("bien_so_xe") +
+                            " (" + resultSet.getString("ho_ten_khach_hang") + ")";
+                    options4.add(display);
+                }
+                maTheBox.setItems(options4);
+                statement.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Thông báo", "Lỗi", "Không thể tải danh sách: " + e.getMessage());
+        }
+    }
+
+    private void handleMaTheChange() {
+        String selectedValue = maTheBox.getValue();
+        if (selectedValue == null) return;
+
+        String loaiThe = loaiTheBox.getValue();
+
+        try {
+            if ("Thẻ ngày".equals(loaiThe)) {
+                // Lấy the_ngay_id từ chuỗi "N123 - 29A12345"
+                int theNgayId = Integer.parseInt(selectedValue.split(" - ")[0].substring(1));
+
+                String query = "SELECT t.bien_so_xe, lx.ten_loai, tn.gio_vao, nv.hoten " +
+                        "FROM the_ngay tn " +
+                        "JOIN the t ON tn.the_id = t.the_id " +
+                        "JOIN loai_xe lx ON t.loai_xe_id = lx.loai_xe_id " +
+                        "JOIN nhan_vien nv ON t.nhan_vien_id = nv.nhanvien_id " +
+                        "WHERE tn.the_ngay_id = ?";
+
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setInt(1, theNgayId);
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    bienSoXeLabel.setText(resultSet.getString("bien_so_xe"));
+                    loaiXeLabel.setText(resultSet.getString("ten_loai"));
+
+                    Timestamp gioVao = resultSet.getTimestamp("gio_vao");
+                    if (gioVao != null) {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                        gioVaoLabel.setText(gioVao.toLocalDateTime().format(formatter));
+                    }
+
+                    nhanVienLabel.setText(resultSet.getString("hoten"));
+                }
+                statement.close();
+
+            } else if ("Thẻ tháng".equals(loaiThe)) {
+                // Lấy the_thang_id từ chuỗi "T123 - 29A12345 (Nguyen Van A)"
+                int theThangId = Integer.parseInt(selectedValue.split(" - ")[0].substring(1));
+
+                String query = "SELECT t.bien_so_xe, lx.ten_loai, tt.ho_ten_khach_hang, " +
+                        "tt.ngay_bat_dau, tt.ngay_ket_thuc, nv.hoten " +
+                        "FROM the_thang tt " +
+                        "JOIN the t ON tt.the_id = t.the_id " +
+                        "JOIN loai_xe lx ON t.loai_xe_id = lx.loai_xe_id " +
+                        "JOIN nhan_vien nv ON t.nhan_vien_id = nv.nhanvien_id " +
+                        "WHERE tt.the_thang_id = ?";
+
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setInt(1, theThangId);
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    bienSoXeLabel.setText(resultSet.getString("bien_so_xe"));
+                    loaiXeLabel.setText(resultSet.getString("ten_loai"));
+
+                    Date ngayBatDau = resultSet.getDate("ngay_bat_dau");
+                    Date ngayKetThuc = resultSet.getDate("ngay_ket_thuc");
+                    gioVaoLabel.setText("Từ " + ngayBatDau + " đến " + ngayKetThuc);
+
+                    nhanVienLabel.setText(resultSet.getString("hoten"));
+                }
+                statement.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Thông báo", "Lỗi", "Không thể tải thông tin: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Thông báo", "Lỗi", "Định dạng mã thẻ không hợp lệ!");
+        }
+    }
+
+    public void TraXe() {
+        String loaiThe = loaiTheBox.getValue();
+        String maThe = maTheBox.getValue();
         String bienSoXe = bienSoXeLabel.getText();
-        String ngayNhan = ngayNhanLabel.getText();
 
         // Kiểm tra dữ liệu đầu vào
-        if (loaiThe == null || loaiXe == null || bienSoXe.isEmpty() || maThe == null || khu == null || ngayNhan == null) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Thiếu thông tin", "Hãy điền dữ liệu vào các ô còn trống !");
+        if (loaiThe == null || maThe == null || bienSoXe == null || bienSoXe.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Thiếu thông tin", "Hãy chọn xe cần trả!");
             return;
         }
+
         try {
-            if (loaiThe.equals("Thẻ ngày")) {
-                String query = "UPDATE the_ngay SET LoaiThe = null, LoaiXe = null, BienSoXe = null WHERE MaTheNgay = ?";
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setString(1, maThe);
+            connection.setAutoCommit(false);
 
-                String query1 = "DELETE FROM nhan_tra_xe_ngay WHERE MaTheNgay = ?";
-                PreparedStatement statement1 = connection.prepareStatement(query1);
-                statement1.setString(1,maThe);
+            if ("Thẻ ngày".equals(loaiThe)) {
+                int theNgayId = Integer.parseInt(maThe.split(" - ")[0].substring(1));
 
-                String query2 = "UPDATE thong_ke_the_ngay SET NgayTra = CAST(GETDATE() AS DATE), GioTra = CAST(GETDATE() AS TIME) WHERE MaThe = ?";
-                PreparedStatement statement2 = connection.prepareStatement(query2);
-                statement2.setString(1,maThe);
+                // Lấy the_id từ the_ngay
+                String getTheIdQuery = "SELECT the_id, gio_vao FROM the_ngay WHERE the_ngay_id = ?";
+                PreparedStatement getTheIdStmt = connection.prepareStatement(getTheIdQuery);
+                getTheIdStmt.setInt(1, theNgayId);
+                ResultSet rs = getTheIdStmt.executeQuery();
 
-                // Thực thi câu truy vấn
-                int rowsAffected = statement.executeUpdate();
-                int rowsAffected1 = statement1.executeUpdate();
-                int rowsAffected2 = statement2.executeUpdate();
+                if (rs.next()) {
+                    int theId = rs.getInt("the_id");
+                    Timestamp gioVao = rs.getTimestamp("gio_vao");
 
-                String query3 = "SELECT ngayTra, gioTra FROM thong_ke_the_ngay WHERE MaThe = ?";
-                PreparedStatement statement3 = connection.prepareStatement(query3);
-                statement3.setString(1,maThe);
-                ResultSet resultSet3 = statement3.executeQuery();
+                    // Cập nhật giờ ra
+                    String updateQuery = "UPDATE the_ngay SET gio_ra = CURRENT_TIMESTAMP WHERE the_ngay_id = ?";
+                    PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
+                    updateStmt.setInt(1, theNgayId);
+                    updateStmt.executeUpdate();
 
-                if (resultSet3.next()) {
-                    String ngayTra = resultSet3.getString("NgayTra");
-                    String gioTra = resultSet3.getString("GioTra");
-                    if (rowsAffected > 0 && rowsAffected1 > 0 && rowsAffected2 > 0) {
-                        String message = "";
-                        message += "Mã thẻ: " + maThe + "\n";
-                        message += "\n\tLoại xe: " + loaiXe + "\n";
-                        message += "\n\tKhu: " + khu + "\n";
-                        message += "\n\tBiển số xe: " + bienSoXe + "\n";
-                        message += "\n\tLoại thẻ: " + loaiThe + "\n";
-                        message += "\n\tNgày trả: " + ngayTra + "\n";
-                        message += "\n\tGiờ trả: " + gioTra + "\n";
-                        showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Xuất hoá đơn thành công!", message);
-                        clearFields();
-                    } else {
-                        showAlert(Alert.AlertType.ERROR, "Thông báo", "Cập nhật dữ liệu thất bại!", "Có lỗi xảy ra trong quá trình thực hiện.");
+                    // Tính phí
+                    LocalDateTime gioRa = LocalDateTime.now();
+                    long soPhut = java.time.Duration.between(gioVao.toLocalDateTime(), gioRa).toMinutes();
+                    double soGio = Math.ceil(soPhut / 60.0);
+
+                    // Lấy giá cơ bản
+                    String getPriceQuery = "SELECT lx.gia_co_ban FROM the t " +
+                            "JOIN loai_xe lx ON t.loai_xe_id = lx.loai_xe_id WHERE t.the_id = ?";
+                    PreparedStatement priceStmt = connection.prepareStatement(getPriceQuery);
+                    priceStmt.setInt(1, theId);
+                    ResultSet priceRs = priceStmt.executeQuery();
+
+                    double phiGuiXe = 0;
+                    if (priceRs.next()) {
+                        phiGuiXe = priceRs.getDouble("gia_co_ban") * soGio;
                     }
+
+                    // Xóa khỏi bảng the và reset the_id trong the_ngay
+                    String deleteTheQuery = "DELETE FROM the WHERE the_id = ?";
+                    PreparedStatement deleteStmt = connection.prepareStatement(deleteTheQuery);
+                    deleteStmt.setInt(1, theId);
+                    deleteStmt.executeUpdate();
+
+                    String resetQuery = "UPDATE the_ngay SET the_id = NULL, gio_vao = NULL, gio_ra = NULL WHERE the_ngay_id = ?";
+                    PreparedStatement resetStmt = connection.prepareStatement(resetQuery);
+                    resetStmt.setInt(1, theNgayId);
+                    resetStmt.executeUpdate();
+
+                    connection.commit();
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                    String message = String.format(
+                            "Mã thẻ: N%d\nBiển số xe: %s\nLoại xe: %s\nGiờ vào: %s\nGiờ ra: %s\nSố giờ: %.0f giờ\nPhí gửi xe: %.0f VNĐ",
+                            theNgayId, bienSoXe, loaiXeLabel.getText(),
+                            gioVao.toLocalDateTime().format(formatter),
+                            gioRa.format(formatter), soGio, phiGuiXe
+                    );
+
+                    showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Xuất xe thành công!", message);
+                    clearFields();
                 }
 
-                statement.close();
-                statement1.close();
-                statement2.close();
-                statement3.close();
-            }
+            } else if ("Thẻ tháng".equals(loaiThe)) {
+                int theThangId = Integer.parseInt(maThe.split(" - ")[0].substring(1));
 
-            else if(loaiThe.equals("Thẻ tháng")) {
-                String query = "UPDATE the_thang SET Do = '0' WHERE MaTheThang = ?";
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setString(1, maThe);
+                // Lấy the_id từ the_thang
+                String getTheIdQuery = "SELECT the_id FROM the_thang WHERE the_thang_id = ?";
+                PreparedStatement getTheIdStmt = connection.prepareStatement(getTheIdQuery);
+                getTheIdStmt.setInt(1, theThangId);
+                ResultSet rs = getTheIdStmt.executeQuery();
 
-                String query1 = "DELETE FROM nhan_tra_xe_thang WHERE MaTheThang = ?";
-                PreparedStatement statement1 = connection.prepareStatement(query1);
-                statement1.setString(1, maThe);
+                if (rs.next()) {
+                    int theId = rs.getInt("the_id");
 
-                String query2 = "UPDATE thong_ke_the_thang SET NgayTra = CAST(GETDATE() AS DATE), GioTra = CAST(GETDATE() AS TIME) WHERE MaThe = ?";
-                PreparedStatement statement2 = connection.prepareStatement(query2);
-                statement2.setString(1, maThe);
+                    // Xóa khỏi bảng the và reset the_id trong the_thang
+                    String deleteTheQuery = "DELETE FROM the WHERE the_id = ?";
+                    PreparedStatement deleteStmt = connection.prepareStatement(deleteTheQuery);
+                    deleteStmt.setInt(1, theId);
+                    deleteStmt.executeUpdate();
 
-                // Thực thi câu truy vấn
-                int rowsAffected = statement.executeUpdate();
-                int rowsAffected1 = statement1.executeUpdate();
-                int rowsAffected2 = statement2.executeUpdate();
+                    String resetQuery = "UPDATE the_thang SET the_id = NULL WHERE the_thang_id = ?";
+                    PreparedStatement resetStmt = connection.prepareStatement(resetQuery);
+                    resetStmt.setInt(1, theThangId);
+                    resetStmt.executeUpdate();
 
-                String query3 = "SELECT ngayTra, gioTra FROM thong_ke_the_thang WHERE MaThe = ?";
-                PreparedStatement statement3 = connection.prepareStatement(query3);
-                statement3.setString(1, maThe);
-                ResultSet resultSet3 = statement3.executeQuery();
+                    connection.commit();
 
-                if (resultSet3.next()) {
-                    String ngayTra = resultSet3.getString("NgayTra");
-                    String gioTra = resultSet3.getString("GioTra");
-                    if (rowsAffected > 0 && rowsAffected1 > 0 && rowsAffected2 > 0) {
-                        String message = "";
-                        message += "Mã thẻ: " + maThe + "\n";
-                        message += "\n\tLoại xe: " + loaiXe + "\n";
-                        message += "\n\tKhu: " + khu + "\n";
-                        message += "\n\tBiển số xe: " + bienSoXe + "\n";
-                        message += "\n\tLoại thẻ: " + loaiThe + "\n";
-                        message += "\n\tNgày trả: " + ngayTra + "\n";
-                        message += "\n\tGiờ trả: " + gioTra + "\n";
-                        showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Xuất hoá đơn thành công!", message);
-                        clearFields();
-                    } else {
-                        showAlert(Alert.AlertType.ERROR, "Thông báo", "Cập nhật dữ liệu thất bại!", "Có lỗi xảy ra trong quá trình thực hiện.");
-                    }
+                    String message = String.format(
+                            "Mã thẻ: T%d\nBiển số xe: %s\nLoại xe: %s\nLoại thẻ: Thẻ tháng\nPhí: Đã thanh toán theo tháng",
+                            theThangId, bienSoXe, loaiXeLabel.getText()
+                    );
+
+                    showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Xuất xe thành công!", message);
+                    clearFields();
                 }
-
-                statement.close();
-                statement1.close();
-                statement2.close();
-                statement3.close();
             }
 
-        } catch(SQLException e){
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR,"Thông báo","Lỗi", String.valueOf(e));
+            showAlert(Alert.AlertType.ERROR, "Thông báo", "Lỗi", "Không thể trả xe: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Thông báo", "Lỗi", "Định dạng mã thẻ không hợp lệ!");
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void reLoadData() {
         loaiTheBox.setValue(null);
-        maTheBox.setValue(null);
-        loaiXeLabel.setText(null);
-        khuLabel.setText(null);
-        bienSoXeLabel.setText(null);
-        ngayNhanLabel.setText(null);
+        maTheBox.getItems().clear();
+        clearLabels();
+        handleLoaiTheChange();
+    }
+
+    private void clearLabels() {
+        loaiXeLabel.setText("");
+        bienSoXeLabel.setText("");
+        gioVaoLabel.setText("");
+        nhanVienLabel.setText("");
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
@@ -304,10 +326,6 @@ public class ParkingOut extends EmployeeUI implements Initializable{
     private void clearFields() {
         loaiTheBox.setValue(null);
         maTheBox.setValue(null);
-        loaiXeLabel.setText(null);
-        khuLabel.setText(null);
-        bienSoXeLabel.setText(null);
-        ngayNhanLabel.setText(null);
+        clearLabels();
     }
 }
-

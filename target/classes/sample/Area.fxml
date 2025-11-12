@@ -10,14 +10,14 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="805.0" prefWidth="1127.0" style="-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Employee.Area">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="805.0" prefWidth="1127.0" style="-fx-background: linear-gradient(to bottom, #e8f4f8 0%, #ffffff 100%);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Employee.Area">
     <children>
         <BorderPane prefHeight="805.0" prefWidth="1127.0" style="-fx-background-radius: 10;">
             <effect>
                 <Blend />
             </effect>
             <top>
-                <AnchorPane prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: orange; -fx-background-radius: 10;" BorderPane.alignment="CENTER">
+                <AnchorPane prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to right, #0088cc 0%, #00bfff 50%, #81d4fa 100%); -fx-background-radius: 10;" BorderPane.alignment="CENTER">
                     <children>
                         <JFXButton fx:id="Logout" layoutX="830.0" layoutY="20.0" onAction="#logout" prefHeight="55.0" prefWidth="150.0" text="Đăng xuất" textFill="WHITE">
                             <font>

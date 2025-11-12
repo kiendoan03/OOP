@@ -26,13 +26,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="805.0" prefWidth="1127.0" style="-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Admin.Account">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="805.0" prefWidth="1127.0" style="-fx-background: linear-gradient(to bottom, #e8f4f8 0%, #ffffff 100%);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Admin.Account">
     <children>
-        <VBox prefHeight="600.0" prefWidth="900.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox prefHeight="600.0" prefWidth="900.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" style="-fx-padding: 15;">
             <children>
                 <HBox alignment="TOP_LEFT">
                     <children>
-                        <Button fx:id="backButton" text="Quay lại" onAction="#handleBackButton">
+                        <Button fx:id="backButton" text="⬅ Quay lại" onAction="#handleBackButton" style="-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-padding: 8px 15px; -fx-background-radius: 5;">
                             <font>
                                 <Font size="12.0" />
                             </font>
@@ -42,7 +42,7 @@
                         <Insets bottom="5.0" />
                     </VBox.margin>
                 </HBox>
-                <Label text="QUẢN LÝ TÀI KHOẢN" alignment="CENTER">
+                <Label text="👤 QUẢN LÝ TÀI KHOẢN" alignment="CENTER" textFill="#0088cc">
                     <font>
                         <Font name="System Bold" size="20.0" />
                     </font>
@@ -50,34 +50,34 @@
                         <Insets bottom="5.0" top="10.0" />
                     </VBox.margin>
                 </Label>
-                <Separator prefWidth="200.0" />
+                <Separator prefWidth="200.0" style="-fx-border-color: #d0e8f2;" />
                 <HBox prefHeight="450.0" prefWidth="880.0" spacing="20.0">
                     <children>
-                        <VBox prefHeight="450.0" prefWidth="400.0" spacing="10.0">
+                        <VBox prefHeight="450.0" prefWidth="400.0" spacing="10.0" style="-fx-border-color: #d0e8f2; -fx-border-radius: 10; -fx-padding: 15; -fx-background-color: white; -fx-background-radius: 10;">
                             <children>
-                                <Label text="Thông tin tài khoản" textFill="#0066cc">
+                                <Label text="📋 Thông tin tài khoản" textFill="#0088cc">
                                     <font>
                                         <Font name="System Bold" size="14.0" />
                                     </font>
                                 </Label>
                                 <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" spacing="10.0">
                                     <children>
-                                        <Label prefWidth="120.0" text="Mã nhân viên:">
+                                        <Label prefWidth="120.0" text="Mã nhân viên:" textFill="#1a1a2e">
                                             <font>
                                                 <Font size="13.0" />
                                             </font>
                                         </Label>
-                                        <TextField fx:id="txtID" prefHeight="30.0" prefWidth="200.0" promptText="Nhập mã nhân viên" />
+                                        <TextField fx:id="txtID" prefHeight="30.0" prefWidth="200.0" promptText="Nhập mã nhân viên" style="-fx-border-color: #d0e8f2; -fx-border-radius: 5; -fx-background-radius: 5;" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" spacing="10.0">
                                     <children>
-                                        <Label prefWidth="120.0" text="Họ tên:">
+                                        <Label prefWidth="120.0" text="Họ tên:" textFill="#1a1a2e">
                                             <font>
                                                 <Font size="13.0" />
                                             </font>
                                         </Label>
-                                        <TextField fx:id="txtHoTen" prefHeight="30.0" prefWidth="200.0" promptText="Nhập họ tên" />
+                                        <TextField fx:id="txtHoTen" prefHeight="30.0" prefWidth="200.0" promptText="Nhập họ tên" style="-fx-border-color: #d0e8f2; -fx-border-radius: 5; -fx-background-radius: 5;" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" spacing="10.0">

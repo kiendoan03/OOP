@@ -23,8 +23,12 @@ public class Main extends Application {
 
         primaryStage.setTitle("Quản lý bãi gửi xe");
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 1130, 800));
-        primaryStage.getStyle();
+        
+        Scene scene = new Scene(root, 1130, 800);
+        // Apply global stylesheet
+        scene.getStylesheets().add(getClass().getResource("/Css/global.css").toExternalForm());
+        
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
     public void changeScene(String fxml) throws IOException {
