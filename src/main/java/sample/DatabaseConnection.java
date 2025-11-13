@@ -10,8 +10,6 @@ import java.sql.SQLException;
 public class DatabaseConnection {
     private static DatabaseConnection instance;
     private Connection connection;
-
-    // Thông tin kết nối SQL Server (SQL Authentication - user/password)
     private static final String DB_URL = "jdbc:sqlserver://KIENDOAN:1433;databaseName=ParkingLot;encrypt=false;trustServerCertificate=true;";
     private static final String DB_USER = "kiendt";
     private static final String DB_PASSWORD = "123456";
@@ -19,16 +17,13 @@ public class DatabaseConnection {
     private DatabaseConnection() {
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            System.out.println("✅ Kết nối SQL Server thành công (SQL Authentication)!");
+            System.out.println("Kết nối SQL Server thành công!");
         } catch (SQLException e) {
-            System.err.println("❌ Lỗi kết nối SQL Server: " + e.getMessage());
+            System.err.println("Lỗi kết nối SQL Server: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    /**
-     * Lấy instance duy nhất của DatabaseConnection (Singleton)
-     */
     public static synchronized DatabaseConnection getInstance() {
         if (instance == null) {
             instance = new DatabaseConnection();
@@ -36,34 +31,26 @@ public class DatabaseConnection {
         return instance;
     }
 
-    /**
-     * Lấy connection hiện tại (không tạo kết nối lại, chỉ trả về connection đã có)
-     */
+
     public Connection getConnection() {
         if (connection == null) {
-            System.err.println("❌ Lỗi: Chưa khởi tạo kết nối! Gọi DatabaseConnection.getInstance() từ Main.java trước!");
+            System.err.println("Lỗi: Chưa khởi tạo kết nối!!");
         }
         return connection;
     }
 
-    /**
-     * Đóng kết nối
-     */
     public void closeConnection() {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
-                System.out.println("✅ Kết nối SQL Server đã đóng!");
+                System.out.println("Kết nối SQL Server đã đóng!");
             }
         } catch (SQLException e) {
-            System.err.println("❌ Lỗi khi đóng kết nối: " + e.getMessage());
+            System.err.println("Lỗi khi đóng kết nối: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    /**
-     * Kiểm tra xem kết nối có sẵn không
-     */
     public boolean isConnected() {
         try {
             return connection != null && !connection.isClosed();
