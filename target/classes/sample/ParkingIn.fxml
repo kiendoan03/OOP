@@ -120,7 +120,7 @@
                                                     </font>
                                                 </Label>
                                                 <ComboBox fx:id="loaiTheComboBox" prefWidth="200.0" GridPane.columnIndex="1" />
-                                                <Label text="Mã thẻ ngày:" GridPane.rowIndex="1">
+                                                <Label text="Mã thẻ:" GridPane.rowIndex="1">
                                                     <font>
                                                         <Font size="14.0" />
                                                     </font>

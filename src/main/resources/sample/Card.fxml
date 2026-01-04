@@ -95,7 +95,7 @@
 <!--                                                    </font>-->
 <!--                                                </Label>-->
 <!--                                                <ComboBox fx:id="loaiXeComboBox" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
-                                                <Label text="Biển số xe:" GridPane.rowIndex="4">
+                                                <Label text="Biển số xe:" GridPane.rowIndex="3">
                                                     <font>
                                                         <Font size="14.0" />
                                                     </font>
@@ -133,16 +133,6 @@
                                                         <Font name="System Bold" size="14.0" />
                                                     </font>
                                                 </Button>
-<!--                                                <Button fx:id="giaHanButton" mnemonicParsing="false" onAction="#handleGiaHan" prefWidth="150.0" style="-fx-background-color: #FF9800;" text="Gia hạn" textFill="WHITE">-->
-<!--                                                    <font>-->
-<!--                                                        <Font name="System Bold" size="14.0" />-->
-<!--                                                    </font>-->
-<!--                                                </Button>-->
-<!--                                                <Button fx:id="huyTheButton" mnemonicParsing="false" onAction="#handleHuyThe" prefWidth="150.0" style="-fx-background-color: #F44336;" text="Hủy thẻ" textFill="WHITE">-->
-<!--                                                    <font>-->
-<!--                                                        <Font name="System Bold" size="14.0" />-->
-<!--                                                    </font>-->
-<!--                                                </Button>-->
                                             </children>
                                             <VBox.margin>
                                                 <Insets top="15.0" />
@@ -161,6 +151,21 @@
                                 <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                     <children>
                                         <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <children>
+                                                <Button onAction="#handleGiaHanThe" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-padding: 8px 15px; -fx-background-radius: 5;" text="⏱ Gia hạn thẻ">
+                                                    <font>
+                                                        <Font size="12.0" />
+                                                    </font>
+                                                </Button>
+                                                <Button onAction="#handleHuyThe" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 8px 15px; -fx-background-radius: 5;" text="❌ Hủy thẻ">
+                                                    <font>
+                                                        <Font size="12.0" />
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="10.0" top="5.0" />
+                                            </VBox.margin>
                                         </HBox>
                                         <TableView fx:id="theThangTableView" prefHeight="400.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
                                             <columns>

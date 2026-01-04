@@ -672,6 +672,131 @@ public class Card extends EmployeeUI implements Initializable {
     }
 
     @FXML
+    private void handleGiaHanThe(ActionEvent event) {
+        TheThangInfo selectedTheThang = theThangTableView.getSelectionModel().getSelectedItem();
+        
+        if (selectedTheThang == null) {
+            showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Vui lòng chọn thẻ tháng cần gia hạn!");
+            return;
+        }
+
+        try {
+            int maTheThang = selectedTheThang.getMaTheThang();
+            LocalDate ngayKetThucCu = selectedTheThang.getNgayKetThuc();
+            LocalDate ngayKetThucMoi = ngayKetThucCu.plusMonths(1);
+
+            // Cập nhật ngày kết thúc
+            PreparedStatement pstmtUpdate = connection.prepareStatement(
+                    "UPDATE the_thang SET ngay_ket_thuc = ? WHERE the_thang_id = ?"
+            );
+            pstmtUpdate.setDate(1, java.sql.Date.valueOf(ngayKetThucMoi));
+            pstmtUpdate.setInt(2, maTheThang);
+
+            int rowsAffected = pstmtUpdate.executeUpdate();
+
+            if (rowsAffected > 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thành công");
+                alert.setHeaderText(null);
+                alert.setContentText("Đã gia hạn thẻ tháng thành công!\n\n" +
+                        "Mã thẻ tháng: " + maTheThang + "\n" +
+                        "Ngày hết hạn mới: " + ngayKetThucMoi.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+                ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Đóng");
+                alert.showAndWait();
+
+                // Tải lại dữ liệu
+                loadTableViewData();
+                theThangTableView.getSelectionModel().clearSelection();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Lỗi", "Không tìm thấy thẻ tháng để gia hạn!");
+            }
+
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể gia hạn thẻ: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleHuyThe(ActionEvent event) {
+        TheThangInfo selectedTheThang = theThangTableView.getSelectionModel().getSelectedItem();
+        
+        if (selectedTheThang == null) {
+            showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Vui lòng chọn thẻ tháng cần hủy!");
+            return;
+        }
+
+        int maTheThang = selectedTheThang.getMaTheThang();
+
+        try {
+            // Kiểm tra xem thẻ có đang được sử dụng không (the_id không null)
+            PreparedStatement pstmtCheck = connection.prepareStatement(
+                    "SELECT the_id FROM the_thang WHERE the_thang_id = ?"
+            );
+            pstmtCheck.setInt(1, maTheThang);
+            ResultSet rsCheck = pstmtCheck.executeQuery();
+
+            if (rsCheck.next()) {
+                Integer theId = null;
+                int tempId = rsCheck.getInt("the_id");
+                if (!rsCheck.wasNull()) {
+                    theId = tempId;
+                }
+
+                // Nếu the_id không null, thẻ đang được sử dụng
+                if (theId != null) {
+                    showAlert(Alert.AlertType.ERROR, "Lỗi", 
+                            "Không thể hủy thẻ tháng này vì thẻ đang được sử dụng!\n\n" +
+                            "Vui lòng xuất xe trước khi hủy thẻ.");
+                    return;
+                }
+            }
+
+            // Hiển thị dialog xác nhận
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmAlert.setTitle("Xác nhận hủy thẻ");
+            confirmAlert.setHeaderText("Bạn có chắc muốn hủy thẻ tháng này?");
+            confirmAlert.setContentText("Khách hàng: " + selectedTheThang.getHoTenKH() + "\n" +
+                    "Mã thẻ: " + selectedTheThang.getMaTheThang() + "\n\n" +
+                    "Hành động này sẽ hủy thẻ và không thể hoàn tác!");
+
+            Optional<ButtonType> result = confirmAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Xóa thẻ tháng
+                PreparedStatement pstmtDelete = connection.prepareStatement(
+                        "DELETE FROM the_thang WHERE the_thang_id = ?"
+                );
+                pstmtDelete.setInt(1, maTheThang);
+
+                int rowsAffected = pstmtDelete.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Thành công");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Đã hủy thẻ tháng thành công!\n\n" +
+                            "Mã thẻ tháng: " + maTheThang + "\n" +
+                            "Khách hàng: " + selectedTheThang.getHoTenKH());
+
+                    ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Đóng");
+                    alert.showAndWait();
+
+                    // Tải lại dữ liệu
+                    loadTableViewData();
+                    theThangTableView.getSelectionModel().clearSelection();
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Lỗi", "Không tìm thấy thẻ tháng để hủy!");
+                }
+            }
+
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể hủy thẻ: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
         Main m = new Main();
         m.changeScene("EmployeeUI.fxml");

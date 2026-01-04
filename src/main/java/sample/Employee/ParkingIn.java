@@ -153,7 +153,7 @@ public class ParkingIn implements Initializable {
             try {
                 int theThangId = Integer.parseInt(selectedMaThe.substring(1).split(" - ")[0]);
                 PreparedStatement pstmt = connection.prepareStatement(
-                        "SELECT tt.ho_ten_khach_hang, tt.sdt_khach_hang FROM the_thang tt WHERE tt.the_thang_id = ?"
+                        "SELECT tt.ho_ten_khach_hang, tt.sdt_khach_hang, tt.bien_so FROM the_thang tt WHERE tt.the_thang_id = ?"
                 );
                 pstmt.setInt(1, theThangId);
                 ResultSet rs = pstmt.executeQuery();
@@ -162,7 +162,13 @@ public class ParkingIn implements Initializable {
                     loaiXeComboBox.setDisable(false);
                     loaiXeComboBox.setValue(null);
                     bienSoXeTextField.setEditable(true);
-                    bienSoXeTextField.clear();
+
+                    String bienSo = rs.getString("bien_so");
+                    if (bienSo != null && !bienSo.isEmpty()) {
+                        bienSoXeTextField.setText(bienSo);
+                    } else {
+                        bienSoXeTextField.clear();
+                    }
                 }
             } catch (SQLException e) {
                 showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể lấy thông tin thẻ tháng: " + e.getMessage());
