@@ -111,7 +111,7 @@ public class Account extends AdminUI implements Initializable {
     private void initializeDatabase() {
         connection = DatabaseConnection.getInstance().getConnection();
         if (connection != null) {
-            System.out.println("✅ Sử dụng kết nối SQL Server từ DatabaseConnection!");
+            System.out.println("Sử dụng kết nối SQL Server từ DatabaseConnection!");
         }
     }
 

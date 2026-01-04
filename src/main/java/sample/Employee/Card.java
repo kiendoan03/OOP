@@ -35,6 +35,7 @@ public class Card extends EmployeeUI implements Initializable {
     @FXML private TextField maTheThangTextField;
     @FXML private TextField hoTenKhachHangTextField;
     @FXML private TextField sdtKhachHangTextField;
+    @FXML private TextField bienSoXeTextField;
     @FXML private DatePicker ngayBatDauDatePicker;
     @FXML private DatePicker ngayKetThucDatePicker;
     @FXML private ComboBox<String> nhanVienComboBox;
@@ -44,6 +45,7 @@ public class Card extends EmployeeUI implements Initializable {
     @FXML private TableColumn<TheThangInfo, Integer> maTheThangColumn;
     @FXML private TableColumn<TheThangInfo, String> hoTenKHColumn;
     @FXML private TableColumn<TheThangInfo, String> sdtKHColumn;
+    @FXML private TableColumn<TheThangInfo, String> bienSoXeColumn;
     @FXML private TableColumn<TheThangInfo, LocalDate> ngayBatDauColumn;
     @FXML private TableColumn<TheThangInfo, LocalDate> ngayKetThucColumn;
     @FXML private TableColumn<TheThangInfo, String> trangThaiColumn;
@@ -59,17 +61,17 @@ public class Card extends EmployeeUI implements Initializable {
         private final StringProperty hoTenKH;
         private final StringProperty sdtKH;
 //        private final StringProperty loaiXe;
-//        private final StringProperty bienSoXe;
+        private final StringProperty bienSoXe;
         private final ObjectProperty<LocalDate> ngayBatDau;
         private final ObjectProperty<LocalDate> ngayKetThuc;
         private final StringProperty trangThai;
 
-        public TheThangInfo(int maTheThang, String hoTenKH, String sdtKH, LocalDate ngayBatDau, LocalDate ngayKetThuc, String trangThai) {
+        public TheThangInfo(int maTheThang, String hoTenKH, String sdtKH, LocalDate ngayBatDau, LocalDate ngayKetThuc, String trangThai, String bienSoXe) {
             this.maTheThang = new SimpleIntegerProperty(maTheThang);
             this.hoTenKH = new SimpleStringProperty(hoTenKH);
             this.sdtKH = new SimpleStringProperty(sdtKH);
 //            this.loaiXe = new SimpleStringProperty(loaiXe);
-//            this.bienSoXe = new SimpleStringProperty(bienSoXe);
+            this.bienSoXe = new SimpleStringProperty(bienSoXe);
             this.ngayBatDau = new SimpleObjectProperty<>(ngayBatDau);
             this.ngayKetThuc = new SimpleObjectProperty<>(ngayKetThuc);
             this.trangThai = new SimpleStringProperty(trangThai);
@@ -92,9 +94,9 @@ public class Card extends EmployeeUI implements Initializable {
 //            return loaiXe;
 //        }
 //
-//        public StringProperty bienSoXeProperty() {
-//            return bienSoXe;
-//        }
+        public StringProperty bienSoXeProperty() {
+            return bienSoXe;
+        }
 
         public ObjectProperty<LocalDate> ngayBatDauProperty() {
             return ngayBatDau;
@@ -141,13 +143,13 @@ public class Card extends EmployeeUI implements Initializable {
 //            this.loaiXe.set(loaiXe);
 //        }
 
-//        public String getBienSoXe() {
-//            return bienSoXe.get();
-//        }
+        public String getBienSoXe() {
+            return bienSoXe.get();
+        }
 
-//        public void setBienSoXe(String bienSoXe) {
-//            this.bienSoXe.set(bienSoXe);
-//        }
+        public void setBienSoXe(String bienSoXe) {
+            this.bienSoXe.set(bienSoXe);
+        }
 
         public LocalDate getNgayBatDau() {
             return ngayBatDau.get();
@@ -286,7 +288,7 @@ public class Card extends EmployeeUI implements Initializable {
         hoTenKHColumn.setCellValueFactory(cellData -> cellData.getValue().hoTenKHProperty());
         sdtKHColumn.setCellValueFactory(cellData -> cellData.getValue().sdtKHProperty());
 //        loaiXeColumn.setCellValueFactory(cellData -> cellData.getValue().loaiXeProperty());
-//        bienSoXeColumn.setCellValueFactory(cellData -> cellData.getValue().bienSoXeProperty());
+        bienSoXeColumn.setCellValueFactory(cellData -> cellData.getValue().bienSoXeProperty());
 
         // Định dạng hiển thị ngày
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -367,7 +369,7 @@ public class Card extends EmployeeUI implements Initializable {
 
             // Sửa truy vấn để lấy dữ liệu từ đúng bảng
             String query = "SELECT tt.the_thang_id, tt.ho_ten_khach_hang, tt.sdt_khach_hang, " +
-                    "tt.ngay_bat_dau, tt.ngay_ket_thuc, tt.the_id " +
+                    "tt.ngay_bat_dau, tt.ngay_ket_thuc, tt.the_id, tt.bien_so " +
                     "FROM the_thang tt " +
                     "LEFT JOIN the t ON tt.the_id = t.the_id ";
 
@@ -384,10 +386,10 @@ public class Card extends EmployeeUI implements Initializable {
                 String sdtKH = rs.getString("sdt_khach_hang");
 
 //                // Lấy biển số xe từ bảng the (nếu có)
-//                String bienSoXe = rs.getString("bien_so_xe");
-//                if (bienSoXe == null) {
-//                    bienSoXe = "Chưa đăng ký";
-//                }
+                String bienSoXe = rs.getString("bien_so");
+                if (bienSoXe == null) {
+                    bienSoXe = "Chưa đăng ký";
+                }
 //
 //                // Lấy loại xe từ bảng loai_xe thông qua bảng the (nếu có)
 //                String loaiXe = rs.getString("ten_loai");
@@ -412,7 +414,7 @@ public class Card extends EmployeeUI implements Initializable {
                     trangThai = "Còn hiệu lực";
                 }
 
-                TheThangInfo theThang = new TheThangInfo(maTheThang, hoTenKH, sdtKH, ngayBatDau, ngayKetThuc, trangThai);
+                TheThangInfo theThang = new TheThangInfo(maTheThang, hoTenKH, sdtKH, ngayBatDau, ngayKetThuc, trangThai, bienSoXe);
                 theThangList.add(theThang);
             }
 
@@ -429,7 +431,7 @@ public class Card extends EmployeeUI implements Initializable {
         hoTenKhachHangTextField.setText(theThang.getHoTenKH());
         sdtKhachHangTextField.setText(theThang.getSdtKH());
 //        loaiXeComboBox.setValue(theThang.getLoaiXe());
-//        bienSoXeTextField.setText(theThang.getBienSoXe());
+        bienSoXeTextField.setText(theThang.getBienSoXe());
         ngayBatDauDatePicker.setValue(theThang.getNgayBatDau());
         ngayKetThucDatePicker.setValue(theThang.getNgayKetThuc());
     }
@@ -440,6 +442,7 @@ public class Card extends EmployeeUI implements Initializable {
         if (maTheThangTextField.getText().isEmpty() ||
                 hoTenKhachHangTextField.getText().isEmpty() ||
                 sdtKhachHangTextField.getText().isEmpty() ||
+                bienSoXeTextField.getText().isEmpty() ||
                 ngayBatDauDatePicker.getValue() == null ||
                 ngayKetThucDatePicker.getValue() == null ||
                 nhanVienComboBox.getValue() == null) {
@@ -485,6 +488,7 @@ public class Card extends EmployeeUI implements Initializable {
             // Lấy thông tin từ form
             String hoTenKH = hoTenKhachHangTextField.getText();
             String sdtKH = sdtKhachHangTextField.getText();
+            String bienSo = bienSoXeTextField.getText();
             String nhanVien = nhanVienComboBox.getValue();
             int nhanVienId = Integer.parseInt(nhanVien.split(" - ")[0]);
 
@@ -492,14 +496,15 @@ public class Card extends EmployeeUI implements Initializable {
 
             // Thêm vào bảng the_thang
             PreparedStatement pstmtTheThang = connection.prepareStatement(
-                    "INSERT INTO the_thang (the_thang_id, ho_ten_khach_hang, sdt_khach_hang, ngay_bat_dau, ngay_ket_thuc) " +
-                            "VALUES (?, ?, ?, ?, ?)"
+                    "INSERT INTO the_thang (the_thang_id, ho_ten_khach_hang, sdt_khach_hang, ngay_bat_dau, ngay_ket_thuc, bien_so) " +
+                            "VALUES (?, ?, ?, ?, ?, ?)"
             );
             pstmtTheThang.setInt(1, maTheThang);
             pstmtTheThang.setString(2, hoTenKH);
             pstmtTheThang.setString(3, sdtKH);
             pstmtTheThang.setDate(4, java.sql.Date.valueOf(ngayBatDau));
             pstmtTheThang.setDate(5, java.sql.Date.valueOf(ngayKetThuc));
+            pstmtTheThang.setString(6, bienSo);
             pstmtTheThang.executeUpdate();
 
             // Thêm vào bảng thong_ke với giá cố định cho thẻ tháng
@@ -564,20 +569,22 @@ public class Card extends EmployeeUI implements Initializable {
             // Lấy thông tin từ form
             String hoTenKH = hoTenKhachHangTextField.getText();
             String sdtKH = sdtKhachHangTextField.getText();
+            String bienSo = bienSoXeTextField.getText();
             LocalDate ngayBatDau = ngayBatDauDatePicker.getValue();
             LocalDate ngayKetThuc = ngayKetThucDatePicker.getValue();
 
             connection.setAutoCommit(false);
             // Cập nhật thông tin thẻ tháng
             PreparedStatement pstmtUpdate = connection.prepareStatement(
-                    "UPDATE the_thang SET ho_ten_khach_hang = ?, sdt_khach_hang = ?, " +
+                    "UPDATE the_thang SET ho_ten_khach_hang = ?, sdt_khach_hang = ?, bien_so = ?," +
                             "ngay_bat_dau = ?, ngay_ket_thuc = ? WHERE the_thang_id = ?"
             );
             pstmtUpdate.setString(1, hoTenKH);
             pstmtUpdate.setString(2, sdtKH);
-            pstmtUpdate.setDate(3, java.sql.Date.valueOf(ngayBatDau));
-            pstmtUpdate.setDate(4, java.sql.Date.valueOf(ngayKetThuc));
-            pstmtUpdate.setInt(5, maTheThang);
+            pstmtUpdate.setString(3, bienSo);
+            pstmtUpdate.setDate(4, java.sql.Date.valueOf(ngayBatDau));
+            pstmtUpdate.setDate(5, java.sql.Date.valueOf(ngayKetThuc));
+            pstmtUpdate.setInt(6, maTheThang);
 
             int rowsAffected = pstmtUpdate.executeUpdate();
             connection.commit();
@@ -637,7 +644,7 @@ public class Card extends EmployeeUI implements Initializable {
         hoTenKhachHangTextField.clear();
         sdtKhachHangTextField.clear();
 //        loaiXeComboBox.setValue(null);
-//        bienSoXeTextField.clear();
+        bienSoXeTextField.clear();
 
         // Đặt lại ngày
         ngayBatDauDatePicker.setValue(LocalDate.now());

@@ -95,12 +95,12 @@
 <!--                                                    </font>-->
 <!--                                                </Label>-->
 <!--                                                <ComboBox fx:id="loaiXeComboBox" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
-<!--                                                <Label text="Biển số xe:" GridPane.rowIndex="4">-->
-<!--                                                    <font>-->
-<!--                                                        <Font size="14.0" />-->
-<!--                                                    </font>-->
-<!--                                                </Label>-->
-<!--                                                <TextField fx:id="bienSoXeTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />-->
+                                                <Label text="Biển số xe:" GridPane.rowIndex="4">
+                                                    <font>
+                                                        <Font size="14.0" />
+                                                    </font>
+                                                </Label>
+                                                <TextField fx:id="bienSoXeTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                                 <Label text="Ngày bắt đầu:" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                                     <font>
                                                         <Font size="14.0" />
@@ -167,6 +167,7 @@
                                                 <TableColumn fx:id="maTheThangColumn" prefWidth="80.0" text="Mã thẻ" />
                                                 <TableColumn fx:id="hoTenKHColumn" prefWidth="150.0" text="Họ tên KH" />
                                                 <TableColumn fx:id="sdtKHColumn" prefWidth="100.0" text="SĐT KH" />
+                                                <TableColumn fx:id="bienSoXeColumn" prefWidth="100.0" text="Biển số xe" />
                                                 <TableColumn fx:id="ngayBatDauColumn" prefWidth="120.0" text="Ngày bắt đầu" />
                                                 <TableColumn fx:id="ngayKetThucColumn" prefWidth="120.0" text="Ngày kết thúc" />
                                                 <TableColumn fx:id="trangThaiColumn" prefWidth="100.0" text="Trạng thái" />

@@ -16,7 +16,6 @@ public class Main extends Application {
 
         stg = primaryStage;
 
-        // Khởi tạo kết nối database một lần duy nhất khi ứng dụng start
         DatabaseConnection.getInstance();
 
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
@@ -25,7 +24,6 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         
         Scene scene = new Scene(root, 1130, 800);
-        // Apply global stylesheet
         scene.getStylesheets().add(getClass().getResource("/Css/global.css").toExternalForm());
         
         primaryStage.setScene(scene);
