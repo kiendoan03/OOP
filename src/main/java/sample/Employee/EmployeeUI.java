@@ -22,13 +22,6 @@ public class EmployeeUI {
         m.changeScene("ParkingIn.fxml");
     }
 
-    @FXML
-    private Button buttonArea;
-    public void Area(ActionEvent event) throws IOException {
-        Main m = new Main();
-        m.changeScene("Area.fxml");
-    }
-
 
     @FXML
     private Button buttonCard;

@@ -59,10 +59,10 @@ public class Statistic implements Initializable {
     @FXML private TableColumn<ThongKeDoanhThuInfo, Integer> soTheThangColumn;
     @FXML private TableColumn<ThongKeDoanhThuInfo, Double> tongDoanhThuColumn;
 
-    // Kết nối CSDL
+
     private Connection connection;
 
-    // Định dạng số tiền
+
     private final DecimalFormat currencyFormat = new DecimalFormat("#,###");
 
     public class ThongKeDoanhThuInfo {
@@ -81,7 +81,7 @@ public class Statistic implements Initializable {
             this.tongDoanhThu = new SimpleDoubleProperty(tongDoanhThu);
         }
 
-        // Getters cho Property
+
         public StringProperty thoiGianProperty() {
             return thoiGian;
         }
@@ -102,7 +102,7 @@ public class Statistic implements Initializable {
             return tongDoanhThu;
         }
 
-        // Getters và setters thông thường
+
         public String getThoiGian() {
             return thoiGian.get();
         }
@@ -146,32 +146,32 @@ public class Statistic implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Khởi tạo kết nối CSDL
+
         initializeDatabase();
 
-        // Hiển thị ngày hiện tại
+
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         ngayHienTaiLabel.setText(currentDate.format(formatter));
 
-        // Khởi tạo ComboBox loại thời gian
+
         ObservableList<String> loaiThoiGianOptions = FXCollections.observableArrayList(
                 "Ngày", "Tháng", "Năm", "Tùy chỉnh"
         );
         loaiThoiGianComboBox.setItems(loaiThoiGianOptions);
         loaiThoiGianComboBox.setValue("Tháng");
 
-        // Thiết lập DatePicker mặc định
+
         tuNgayDatePicker.setValue(LocalDate.now().withDayOfMonth(1)); // Ngày đầu tháng
         denNgayDatePicker.setValue(LocalDate.now()); // Ngày hiện tại
 
-        // Xử lý sự kiện khi chọn loại thời gian
+
         loaiThoiGianComboBox.setOnAction(event -> handleLoaiThoiGianChange());
 
-        // Khởi tạo TableView
+
         initializeTableView();
 
-        // Thống kê mặc định
+
         handleThongKe(null);
     }
 
@@ -188,7 +188,7 @@ public class Statistic implements Initializable {
         thoiGianColumn.setCellValueFactory(cellData -> cellData.getValue().thoiGianProperty());
         soTheNgayColumn.setCellValueFactory(cellData -> cellData.getValue().soTheNgayProperty().asObject());
 
-        // Định dạng cột tiền tệ
+
         doanhThuTheNgayColumn.setCellValueFactory(cellData -> cellData.getValue().doanhThuTheNgayProperty().asObject());
         doanhThuTheNgayColumn.setCellFactory(column -> {
             return new TableCell<ThongKeDoanhThuInfo, Double>() {
@@ -206,7 +206,7 @@ public class Statistic implements Initializable {
 
         soTheThangColumn.setCellValueFactory(cellData -> cellData.getValue().soTheThangProperty().asObject());
 
-        // Định dạng cột tiền tệ
+
         tongDoanhThuColumn.setCellValueFactory(cellData -> cellData.getValue().tongDoanhThuProperty().asObject());
         tongDoanhThuColumn.setCellFactory(column -> {
             return new TableCell<ThongKeDoanhThuInfo, Double>() {
@@ -281,14 +281,14 @@ public class Statistic implements Initializable {
     private void thongKeDoanhThu(String loaiThoiGian, LocalDate tuNgay, LocalDate denNgay) throws SQLException {
         ObservableList<ThongKeDoanhThuInfo> thongKeList = FXCollections.observableArrayList();
 
-        // Tạo series cho biểu đồ
+
         XYChart.Series<String, Number> doanhThuTheNgaySeries = new XYChart.Series<>();
         doanhThuTheNgaySeries.setName("Doanh thu thẻ ngày");
 
         XYChart.Series<String, Number> soTheThangSeries = new XYChart.Series<>();
         soTheThangSeries.setName("Số thẻ tháng mới");
 
-        // Tổng cộng
+
         int tongSoTheNgay = 0;
         double tongDTTheNgay = 0;
         int tongSoTheThang = 0;

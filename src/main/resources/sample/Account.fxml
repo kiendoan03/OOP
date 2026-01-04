@@ -42,7 +42,7 @@
                         <Insets bottom="5.0" />
                     </VBox.margin>
                 </HBox>
-                <Label text="👤 QUẢN LÝ TÀI KHOẢN" alignment="CENTER" textFill="#0088cc">
+                <Label text="QUẢN LÝ TÀI KHOẢN" alignment="CENTER" textFill="#0088cc">
                     <font>
                         <Font name="System Bold" size="20.0" />
                     </font>

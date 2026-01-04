@@ -61,7 +61,7 @@ public class AProblem extends AdminUI implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Initialize connection nếu cần
+
         initializeConnection();
 
         setupTableColumns();
@@ -69,13 +69,13 @@ public class AProblem extends AdminUI implements Initializable {
         loadComboBoxData();
         loadSuCoData();
 
-        // Set default values
+
         ngayPicker.setValue(java.time.LocalDate.now());
         gioTextField.setText(java.time.LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
-//        suCoIdTextField.setDisable(true); // Disable ID field khi thêm mới
+
     }
 
-    // Method để initialize connection - customize theo project anh
+
     private void initializeConnection() {
         connection = DatabaseConnection.getInstance().getConnection();
         if (connection != null) {
@@ -85,7 +85,7 @@ public class AProblem extends AdminUI implements Initializable {
         }
     }
 
-    // Method showAlert - add vào class này
+
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -209,7 +209,7 @@ public class AProblem extends AdminUI implements Initializable {
             PreparedStatement pstmt;
 
             if (suCoIdTextField.getText().trim().isEmpty()) {
-                // Auto increment ID
+
                 query = "INSERT INTO su_co (the_id, nhan_vien_id, ngay_gio, mo_ta) VALUES (?, ?, ?, ?)";
                 pstmt = connection.prepareStatement(query);
                 pstmt.setInt(1, extractIdFromComboBox(theComboBox.getValue()));
@@ -217,7 +217,7 @@ public class AProblem extends AdminUI implements Initializable {
                 pstmt.setTimestamp(3, Timestamp.valueOf(getSelectedDateTime()));
                 pstmt.setString(4, moTaTextArea.getText().trim());
             } else {
-                // Specify ID
+
                 query = "INSERT INTO su_co (su_co_id, the_id, nhan_vien_id, ngay_gio, mo_ta) VALUES (?, ?, ?, ?, ?)";
                 pstmt = connection.prepareStatement(query);
                 pstmt.setInt(1, Integer.parseInt(suCoIdTextField.getText().trim()));
@@ -305,10 +305,10 @@ public class AProblem extends AdminUI implements Initializable {
 
     private void fillFormFields() {
         if (selectedSuCo != null) {
-            // Set ID field
+
             suCoIdTextField.setText(String.valueOf(selectedSuCo.getSuCoId()));
 
-            // Set ComboBox values
+
             for (String item : theComboBox.getItems()) {
                 if (item.startsWith(selectedSuCo.getTheId() + " -")) {
                     theComboBox.setValue(item);
@@ -323,7 +323,7 @@ public class AProblem extends AdminUI implements Initializable {
                 }
             }
 
-            // Set date and time
+
             ngayPicker.setValue(selectedSuCo.getNgayGio().toLocalDate());
             gioTextField.setText(selectedSuCo.getNgayGio().format(DateTimeFormatter.ofPattern("HH:mm")));
             moTaTextArea.setText(selectedSuCo.getMoTa());
@@ -379,7 +379,7 @@ public class AProblem extends AdminUI implements Initializable {
     }
 
     private boolean validateInputForAdd() {
-        // Validate ID nếu có nhập
+
         if (!suCoIdTextField.getText().trim().isEmpty()) {
             try {
                 Integer.parseInt(suCoIdTextField.getText().trim());
@@ -403,7 +403,7 @@ public class AProblem extends AdminUI implements Initializable {
         return Integer.parseInt(value.split(" - ")[0]);
     }
 
-    // Inner class for display - có thể tách ra file riêng nếu cần
+    
     public static class SuCoDisplay {
         private int suCoId;
         private int theId;

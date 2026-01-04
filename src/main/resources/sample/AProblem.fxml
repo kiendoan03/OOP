@@ -21,7 +21,7 @@
                         <Insets bottom="5.0" left="15.0" />
                     </VBox.margin>
                 </HBox>
-                <Label text="⚠️ QUẢN LÝ SỰ CỐ" textAlignment="CENTER" textFill="WHITE">
+                <Label text="QUẢN LÝ SỰ CỐ" textAlignment="CENTER" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>

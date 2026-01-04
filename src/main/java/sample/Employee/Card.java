@@ -637,23 +637,23 @@ public class Card extends EmployeeUI implements Initializable {
 
     @FXML
     private void handleLamMoi(ActionEvent event) {
-        // Tạo ID thẻ tháng mới
+
         suggestNewTheThangId();
 
-        // Xóa nội dung các trường
+
         hoTenKhachHangTextField.clear();
         sdtKhachHangTextField.clear();
 //        loaiXeComboBox.setValue(null);
         bienSoXeTextField.clear();
 
-        // Đặt lại ngày
+
         ngayBatDauDatePicker.setValue(LocalDate.now());
         ngayKetThucDatePicker.setValue(LocalDate.now().plusMonths(1));
 
-        // Xóa thông báo
+
         thongBaoLabel.setText("");
 
-        // Bỏ chọn trong TableView
+
         theThangTableView.getSelectionModel().clearSelection();
     }
 
@@ -705,7 +705,7 @@ public class Card extends EmployeeUI implements Initializable {
                 ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Đóng");
                 alert.showAndWait();
 
-                // Tải lại dữ liệu
+
                 loadTableViewData();
                 theThangTableView.getSelectionModel().clearSelection();
             } else {
@@ -730,7 +730,7 @@ public class Card extends EmployeeUI implements Initializable {
         int maTheThang = selectedTheThang.getMaTheThang();
 
         try {
-            // Kiểm tra xem thẻ có đang được sử dụng không (the_id không null)
+
             PreparedStatement pstmtCheck = connection.prepareStatement(
                     "SELECT the_id FROM the_thang WHERE the_thang_id = ?"
             );
@@ -744,7 +744,7 @@ public class Card extends EmployeeUI implements Initializable {
                     theId = tempId;
                 }
 
-                // Nếu the_id không null, thẻ đang được sử dụng
+
                 if (theId != null) {
                     showAlert(Alert.AlertType.ERROR, "Lỗi", 
                             "Không thể hủy thẻ tháng này vì thẻ đang được sử dụng!\n\n" +
@@ -753,7 +753,7 @@ public class Card extends EmployeeUI implements Initializable {
                 }
             }
 
-            // Hiển thị dialog xác nhận
+
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmAlert.setTitle("Xác nhận hủy thẻ");
             confirmAlert.setHeaderText("Bạn có chắc muốn hủy thẻ tháng này?");
@@ -763,7 +763,7 @@ public class Card extends EmployeeUI implements Initializable {
 
             Optional<ButtonType> result = confirmAlert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Xóa thẻ tháng
+
                 PreparedStatement pstmtDelete = connection.prepareStatement(
                         "DELETE FROM the_thang WHERE the_thang_id = ?"
                 );
@@ -782,7 +782,7 @@ public class Card extends EmployeeUI implements Initializable {
                     ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Đóng");
                     alert.showAndWait();
 
-                    // Tải lại dữ liệu
+
                     loadTableViewData();
                     theThangTableView.getSelectionModel().clearSelection();
                 } else {

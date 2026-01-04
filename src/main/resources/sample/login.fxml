@@ -11,7 +11,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="804.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Login" style="-fx-background: linear-gradient(to bottom, #e8f4f8 0%, #b3e5fc 50%, #81d4fa 100%);">
    <children>
       <VBox alignment="CENTER" layoutX="280" layoutY="200" prefWidth="500" spacing="25.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 50; -fx-effect: dropshadow(gaussian, rgba(0,136,204,0.25), 20, 0, 0, 8);">
-         <Label text="🚗 PARKING SYSTEM" textAlignment="CENTER" textFill="#0088cc" wrapText="true">
+         <Label text="PARKING SYSTEM" textAlignment="CENTER" textFill="#0088cc" wrapText="true">
             <font>
                <Font name="Segoe UI" size="36.0" />
             </font>

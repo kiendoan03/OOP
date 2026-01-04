@@ -79,35 +79,35 @@ public class Account extends AdminUI implements Initializable {
     @FXML
     private Button btnLamMoi;
 
-    // Database connection
+
     private Connection connection;
     private PreparedStatement pst;
     private ResultSet rs;
 
-    // ObservableList to store data
+
     private ObservableList<NhanVien> listNhanVien = FXCollections.observableArrayList();
 
-    // Initialize method required by Initializable interface
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Initialize the database connection
+
         initializeDatabase();
 
-        // Load quyền options to ComboBox
+
         cbQuyen.getItems().addAll("Admin", "Nhân viên");
         cbQuyen.setValue("Nhân viên"); // Set default value
 
-        // Initialize the TableView columns
+
         initColumns();
 
-        // Load data from database
+
         loadDataFromDatabase();
 
-        // Add listener for table row selection
+
         tableNhanVien.setOnMouseClicked(this::handleTableClick);
     }
 
-    // Initialize database connection
+
     private void initializeDatabase() {
         connection = DatabaseConnection.getInstance().getConnection();
         if (connection != null) {
@@ -115,7 +115,7 @@ public class Account extends AdminUI implements Initializable {
         }
     }
 
-    // Initialize TableView columns
+
     private void initColumns() {
         colID.setCellValueFactory(new PropertyValueFactory<>("nhanvienId"));
         colHoTen.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
@@ -126,7 +126,7 @@ public class Account extends AdminUI implements Initializable {
         colQuyen.setCellValueFactory(new PropertyValueFactory<>("quyenTk"));
     }
 
-    // Load data from database to TableView
+
     private void loadDataFromDatabase() {
         try {
             listNhanVien.clear();
@@ -175,13 +175,13 @@ public class Account extends AdminUI implements Initializable {
         }
     }
 
-    // Add new employee
+
     @FXML
     private void handleThemAction(ActionEvent event) {
         try {
-            // Validate input
+
             if (validateInput()) {
-                // Check if ID already exists
+
                 if (checkIfIdExists(Integer.parseInt(txtID.getText()))) {
                     showAlert(Alert.AlertType.ERROR, "Error", "ID already exists",
                             "An employee with this ID already exists. Please use a different ID.");
@@ -205,10 +205,10 @@ public class Account extends AdminUI implements Initializable {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Employee Added",
                         "Employee has been successfully added to the database.");
 
-                // Refresh the table
+
                 loadDataFromDatabase();
 
-                // Clear input fields
+
                 clearFields();
             }
 
@@ -219,13 +219,13 @@ public class Account extends AdminUI implements Initializable {
         }
     }
 
-    // Update existing employee
+
     @FXML
     private void handleSuaAction(ActionEvent event) {
         try {
-            // Validate input
+
             if (validateInput()) {
-                // Check if ID exists
+
                 if (!checkIfIdExists(Integer.parseInt(txtID.getText()))) {
                     showAlert(Alert.AlertType.ERROR, "Error", "ID not found",
                             "No employee with this ID exists in the database.");
@@ -249,10 +249,10 @@ public class Account extends AdminUI implements Initializable {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Employee Updated",
                         "Employee information has been successfully updated.");
 
-                // Refresh the table
+
                 loadDataFromDatabase();
 
-                // Clear input fields
+
                 clearFields();
             }
 
@@ -263,18 +263,18 @@ public class Account extends AdminUI implements Initializable {
         }
     }
 
-    // Delete employee
+
     @FXML
     private void handleXoaAction(ActionEvent event) {
         try {
-            // Check if ID is provided
+
             if (txtID.getText().isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, "Error", "No ID specified",
                         "Please select an employee to delete.");
                 return;
             }
 
-            // Check if ID exists
+
             if (!checkIfIdExists(Integer.parseInt(txtID.getText()))) {
                 showAlert(Alert.AlertType.ERROR, "Error", "ID not found",
                         "No employee with this ID exists in the database.");
@@ -291,10 +291,10 @@ public class Account extends AdminUI implements Initializable {
             showAlert(Alert.AlertType.INFORMATION, "Success", "Employee Deleted",
                     "Employee has been successfully removed from the database.");
 
-            // Refresh the table
+
             loadDataFromDatabase();
 
-            // Clear input fields
+
             clearFields();
 
         } catch (SQLException e) {
@@ -304,13 +304,13 @@ public class Account extends AdminUI implements Initializable {
         }
     }
 
-    // Clear all input fields
+
     @FXML
     private void handleLamMoiAction(ActionEvent event) {
         clearFields();
     }
 
-    // Clear input fields helper method
+
     private void clearFields() {
         txtID.clear();
         txtHoTen.clear();
@@ -322,7 +322,7 @@ public class Account extends AdminUI implements Initializable {
         tableNhanVien.getSelectionModel().clearSelection();
     }
 
-    // Check if an employee ID already exists
+
     private boolean checkIfIdExists(int id) throws SQLException {
         String query = "SELECT COUNT(*) FROM nhan_vien WHERE nhanvien_id = ?";
         PreparedStatement checkStatement = null;
@@ -344,7 +344,7 @@ public class Account extends AdminUI implements Initializable {
         }
     }
 
-    // Validate input fields
+
     private boolean validateInput() {
         StringBuilder errorMessage = new StringBuilder();
 
@@ -397,7 +397,7 @@ public class Account extends AdminUI implements Initializable {
         return true;
     }
 
-    // Show alert dialog
+
     private void showAlert(Alert.AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -406,7 +406,7 @@ public class Account extends AdminUI implements Initializable {
         alert.showAndWait();
     }
 
-    // Close database resources
+
     private void closeResources(Connection conn, PreparedStatement ps, ResultSet rs) {
         try {
             if (rs != null) {
@@ -415,13 +415,13 @@ public class Account extends AdminUI implements Initializable {
             if (ps != null) {
                 ps.close();
             }
-            // We don't close the connection here as it's used throughout the application
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Employee model class
+
     public static class NhanVien {
         private int nhanvienId;
         private String hoTen;
@@ -441,7 +441,7 @@ public class Account extends AdminUI implements Initializable {
             this.quyenTk = quyenTk;
         }
 
-        // Getters and Setters
+
         public int getNhanvienId() {
             return nhanvienId;
         }

@@ -41,7 +41,7 @@ public class ParkingIn implements Initializable {
     @FXML private TextField phiGuiXeTextField;
 
     private Connection connection;
-    private static final int MAX_BIEN_SO_LENGTH = 10;
+    private static final int MAX_BIEN_SO_LENGTH = 20;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -84,7 +84,7 @@ public class ParkingIn implements Initializable {
     private void initializeDatabase() {
         connection = DatabaseConnection.getInstance().getConnection();
         if (connection != null) {
-            System.out.println("✅ Sử dụng kết nối SQL Server từ DatabaseConnection!");
+            System.out.println("Sử dụng kết nối SQL Server từ DatabaseConnection!");
         } else {
             showAlert(Alert.AlertType.ERROR, "Lỗi kết nối", "Không thể lấy kết nối đến cơ sở dữ liệu!");
         }
@@ -244,6 +244,29 @@ public class ParkingIn implements Initializable {
         }
     }
 
+    private double tinhPhiGuiXeValue(int theId, LocalDateTime gioVao) {
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(
+                    "SELECT lx.gia_co_ban FROM the t JOIN loai_xe lx ON t.loai_xe_id = lx.loai_xe_id WHERE t.the_id = ?"
+            );
+            pstmt.setInt(1, theId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                double giaCoBan = rs.getDouble("gia_co_ban");
+                LocalDateTime gioRa = LocalDateTime.now();
+                long soPhut = java.time.Duration.between(gioVao, gioRa).toMinutes();
+                double soGio = Math.ceil(soPhut / 60.0);
+                if (soGio < 1) soGio = 1;
+                double phi = giaCoBan * soGio;
+                return phi;
+            }
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tính phí gửi xe: " + e.getMessage());
+        }
+        return 0;
+    }
+
     private void updateCurrentTime() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -355,7 +378,7 @@ public class ParkingIn implements Initializable {
                 int loaiXeId = rsLoaiXe.getInt("loai_xe_id");
                 connection.setAutoCommit(false);
 
-                // ✅ CHỈ INSERT VÀO BẢNG 'the' - KHÔNG INSERT VÀO thong_ke
+
                 PreparedStatement pstmtThe = connection.prepareStatement(
                         "INSERT INTO the (the_id, bien_so_xe, loai_xe_id, nhan_vien_id) VALUES (?, ?, ?, ?)"
                 );
@@ -480,7 +503,7 @@ public class ParkingIn implements Initializable {
             ResultSet rsTheThang = pstmtCheckTheThang.executeQuery();
             boolean isTheThang = rsTheThang.next();
 
-            // ✅ LẤY THÔNG TIN ĐỂ INSERT VÀO THỐNG KÊ
+            // LẤY THÔNG TIN ĐỂ INSERT VÀO THỐNG KÊ
             PreparedStatement pstmtGetInfo = connection.prepareStatement(
                     "SELECT t.loai_xe_id, t.nhan_vien_id, lx.gia_co_ban " +
                             "FROM the t JOIN loai_xe lx ON t.loai_xe_id = lx.loai_xe_id WHERE t.the_id = ?"
@@ -496,17 +519,20 @@ public class ParkingIn implements Initializable {
             }
 
             if (isTheNgay) {
-                // CẬP NHẬT GIỜ RA
+
                 PreparedStatement pstmtUpdateTheNgay = connection.prepareStatement(
                         "UPDATE the_ngay SET gio_ra = CURRENT_TIMESTAMP WHERE the_id = ?"
                 );
                 pstmtUpdateTheNgay.setInt(1, theId);
                 pstmtUpdateTheNgay.executeUpdate();
 
-                // TÍNH PHÍ
-                double phi = giaCoBan;
 
-                // ✅ INSERT VÀO THỐNG KÊ KHI CHECKOUT
+                double phi = 0;
+                if (gioVaoTimestamp != null) {
+                    phi = tinhPhiGuiXeValue(theId, gioVaoTimestamp.toLocalDateTime());
+                }
+
+
                 PreparedStatement pstmtThongKe = connection.prepareStatement(
                         "INSERT INTO thong_ke (ngay_giao_dich, loai_the, gia, nhan_vien_id) VALUES (CURRENT_TIMESTAMP, 'ngay', ?, ?)"
                 );
@@ -523,7 +549,7 @@ public class ParkingIn implements Initializable {
             }
 
             if (isTheThang) {
-                // ✅ INSERT VÀO THỐNG KÊ VỚI GIÁ 0 CHO THẺ THÁNG
+                // INSERT VÀO THỐNG KÊ VỚI GIÁ 0 CHO THẺ THÁNG
                 PreparedStatement pstmtThongKe = connection.prepareStatement(
                         "INSERT INTO thong_ke (ngay_giao_dich, loai_the, gia, nhan_vien_id) VALUES (CURRENT_TIMESTAMP, 'thang', 0, ?)"
                 );
